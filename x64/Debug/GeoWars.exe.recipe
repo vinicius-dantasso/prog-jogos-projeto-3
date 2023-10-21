@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>C:\Users\vinic\OneDrive\Área de Trabalho\Faculdade\Quinto Periodo\Programação de Jogos\Jogos - Projeto 3\x64\Debug\GeoWars.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\Users\vinic\OneDrive\Área de Trabalho\Faculdade\Quinto Periodo\Programação de Jogos\Jogos - Projeto 3\GeoWars\Shaders\Pixel.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\vinic\OneDrive\Área de Trabalho\Faculdade\Quinto Periodo\Programação de Jogos\Jogos - Projeto 3\GeoWars\Shaders\Vertex.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
