@@ -4,7 +4,8 @@
 #include "Object.h"
 #include "Sprite.h"
 #include "Types.h"
-#include "Camera.h"
+
+enum FloorType {GRASS, WALLDIR, WALLESQ, SOIL};
 
 class Floor : public Object
 {
@@ -12,7 +13,7 @@ private:
 	Sprite* sprite;
 
 public:
-	Floor(float posX, float posY);
+	Floor(float posX, float posY, uint imageType);
 	~Floor();
 
 	void Update();

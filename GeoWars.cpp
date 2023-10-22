@@ -158,7 +158,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     Game * game = new GeoWars();
 
     // configura o jogo
-    game->Size(2560, 648);
+    game->Size(3840, 648);
     
     // inicia execução
     engine->Start(game);

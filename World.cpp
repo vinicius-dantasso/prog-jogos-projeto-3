@@ -19,8 +19,38 @@ World::World(const char* path)
 				&& image[3 * (xx + (yy * width)) + 2] == 255
 				)
 			{
-				// CHÃO
-				Floor* floor = new Floor(xx * 48.0f, yy * 48.0f);
+				// GRAMA
+				Floor* floor = new Floor(xx * 48.0f, yy * 48.0f, GRASS);
+				GeoWars::scene->Add(floor, STATIC);
+			}
+			
+			else if (image[3 * (xx + (yy * width))] == 230
+				&& image[3 * (xx + (yy * width)) + 1] == 255
+				&& image[3 * (xx + (yy * width)) + 2] == 255
+				)
+			{
+				// PAREDE ESQUERDA
+				Floor* floor = new Floor(xx * 48.0f, yy * 48.0f, WALLESQ);
+				GeoWars::scene->Add(floor, STATIC);
+			}
+
+			else if (image[3 * (xx + (yy * width))] == 210
+				&& image[3 * (xx + (yy * width)) + 1] == 255
+				&& image[3 * (xx + (yy * width)) + 2] == 255
+				)
+			{
+				// PAREDE DIREITA
+				Floor* floor = new Floor(xx * 48.0f, yy * 48.0f, WALLDIR);
+				GeoWars::scene->Add(floor, STATIC);
+			}
+
+			else if (image[3 * (xx + (yy * width))] == 190
+				&& image[3 * (xx + (yy * width)) + 1] == 255
+				&& image[3 * (xx + (yy * width)) + 2] == 255
+				)
+			{
+				// SOLO
+				Floor* floor = new Floor(xx * 48.0f, yy * 48.0f, SOIL);
 				GeoWars::scene->Add(floor, STATIC);
 			}
 

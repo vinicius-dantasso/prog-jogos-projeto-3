@@ -23,7 +23,7 @@
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, FLOOR, RIGHTWALL, LEFTWALL };
+enum ObjectIds { PLAYER, FLOOR, RIGHTWALL, LEFTWALL, HITBOX };
 
 // ------------------------------------------------------------------------------
 

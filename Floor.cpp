@@ -1,12 +1,33 @@
 #include "Floor.h"
 #include "GeoWars.h"
 
-Floor::Floor(float posX, float posY)
+Floor::Floor(float posX, float posY, uint imageType)
 {
-	sprite = new Sprite("Resources/floor2.png");
+	switch (imageType)
+	{
+	case GRASS:
+		sprite = new Sprite("Resources/floor.png");
+		type = FLOOR;
+		BBox(new Rect(-24, -24, 24, 24));
+		break;
 
-	type = FLOOR;
-	BBox(new Rect(-24, -24, 24, 24));
+	case WALLDIR:
+		sprite = new Sprite("Resources/floor_corner_right.png");
+		type = RIGHTWALL;
+		BBox(new Rect(-24, -24, 24, 24));
+		break;
+
+	case WALLESQ:
+		sprite = new Sprite("Resources/floor_corner_left.png");
+		type = LEFTWALL;
+		BBox(new Rect(-24, -24, 24, 24));
+		break;
+
+	case SOIL:
+		sprite = new Sprite("Resources/floor_down.png");
+		break;
+	}
+
 	MoveTo(posX, posY);
 }
 

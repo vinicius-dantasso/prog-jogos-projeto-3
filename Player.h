@@ -16,11 +16,22 @@
 
 #include "Object.h"                        // objetos do jogo
 #include "Animation.h"
+#include "Timer.h"
 #include "Font.h"
+#include "HitBox.h"
 
 // ---------------------------------------------------------------------------------
 
-enum PlayerAnim {PLAYERIDLEL, PLAYERIDLER, PLAYERMOVEL, PLAYERMOVER, PLAYERJUMP};
+enum PlayerAnim {
+    PLAYERIDLEL,
+    PLAYERIDLER,
+    PLAYERMOVEL,
+    PLAYERMOVER,
+    PLAYERJUMPR,
+    PLAYERJUMPL,
+    PLAYERATTACKL,
+    PLAYERATTACKR
+};
 enum PlayerState {PLAYERMOVE, PLAYERHIT, PLAYERATTACK};
 
 class Player : public Object
@@ -28,7 +39,9 @@ class Player : public Object
 private:
     TileSet* tile;
     Animation* anim;
+    Timer* attackTimer;
     Font* font;
+    HitBox* hitbox;
 
     float spd;
     float hSpd;
@@ -36,6 +49,7 @@ private:
     float grav;
     
     int lastDir;
+    int life;
 
     bool onGround;
 
