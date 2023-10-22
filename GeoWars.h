@@ -34,6 +34,7 @@ enum SoundIds { THEME, START, FIRE, EXPLODE, HITWALL };
 class GeoWars : public Game
 {
 private:
+    Background* backg = nullptr;   // pano de fundo
     bool viewBBox = false;          // visualização das bouding boxes
 
 public:

@@ -1,2 +1,7 @@
-﻿  World.cpp
+﻿  Floor.cpp
+  GeoWars.cpp
+  Player.cpp
+  World.cpp
+C:\Users\vinic\OneDrive\Área de Trabalho\Faculdade\Quinto Periodo\Programação de Jogos\Jogos - Projeto 3\GeoWars\Player.cpp(102,16): warning C4804: '-': uso não seguro de tipo 'bool' em operação
+C:\Users\vinic\OneDrive\Área de Trabalho\Faculdade\Quinto Periodo\Programação de Jogos\Jogos - Projeto 3\GeoWars\Player.cpp(166,31): warning C4244: '=': conversão de 'float' para 'int', possível perda de dados
   GeoWars.vcxproj -> C:\Users\vinic\OneDrive\Área de Trabalho\Faculdade\Quinto Periodo\Programação de Jogos\Jogos - Projeto 3\x64\Debug\GeoWars.exe

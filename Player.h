@@ -20,7 +20,7 @@
 
 // ---------------------------------------------------------------------------------
 
-enum PlayerAnim {PLAYERIDLEL, PLAYERIDLER, PLAYERMOVEL, PLAYERMOVER};
+enum PlayerAnim {PLAYERIDLEL, PLAYERIDLER, PLAYERMOVEL, PLAYERMOVER, PLAYERJUMP};
 enum PlayerState {PLAYERMOVE, PLAYERHIT, PLAYERATTACK};
 
 class Player : public Object
@@ -37,6 +37,8 @@ private:
     
     int lastDir;
 
+    bool onGround;
+
 public:
     uint state;
     uint animState;
@@ -49,6 +51,7 @@ public:
     void PlayerHit();
     void UpdateCamera();
     
+    void OnCollision(Object* obj);
     void Update();                      // atualização
     void Draw();                        // desenho
 }; 

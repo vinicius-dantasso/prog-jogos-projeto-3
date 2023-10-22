@@ -21,7 +21,7 @@ public:
 
 inline void Floor::Draw()
 {
-	sprite->Draw(x - Camera::x, y - Camera::y, Layer::BACK);
+	sprite->Draw(x, y, Layer::BACK);
 }
 
 inline void Floor::Update(){}
