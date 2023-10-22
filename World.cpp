@@ -5,6 +5,7 @@
 #include "Floor.h"
 #include "Lamp.h"
 #include "Grass.h"
+#include "Fence.h"
 
 World::World(const char* path)
 {
@@ -74,6 +75,16 @@ World::World(const char* path)
 				// GRAMA
 				Grass* grass = new Grass(xx * 48.0f, yy * 50.2f);
 				GeoWars::scene->Add(grass, STATIC);
+			}
+
+			if (image[3 * (xx + (yy * width))] == 255
+				&& image[3 * (xx + (yy * width)) + 1] == 135
+				&& image[3 * (xx + (yy * width)) + 2] == 71
+				)
+			{
+				// CERCA
+				Fence* fence = new Fence(xx * 48.0f, yy * 48.5f);
+				GeoWars::scene->Add(fence, STATIC);
 			}
 
 		}
