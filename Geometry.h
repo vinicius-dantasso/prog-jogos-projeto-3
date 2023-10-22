@@ -16,6 +16,7 @@
 
 #include "Types.h"                                      // tipos da engine
 #include <list>                                         // lista da STL
+#include "Camera.h"
 using std::list;                                        // usar list sem std::
 
 // ---------------------------------------------------------------------------

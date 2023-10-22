@@ -17,6 +17,7 @@
 #include "Engine.h"
 #include "Scene.h"
 #include "Object.h"
+#include "Camera.h"
 
 // ---------------------------------------------------------------------------------
 

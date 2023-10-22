@@ -16,24 +16,38 @@
 
 #include "Object.h"                        // objetos do jogo
 #include "Animation.h"
+#include "Font.h"
 
 // ---------------------------------------------------------------------------------
 
-enum PlayerAnim {PLAYERIDLEL, PLAYERIDLER};
+enum PlayerAnim {PLAYERIDLEL, PLAYERIDLER, PLAYERMOVEL, PLAYERMOVER};
+enum PlayerState {PLAYERMOVE, PLAYERHIT, PLAYERATTACK};
 
 class Player : public Object
 {
 private:
     TileSet* tile;
     Animation* anim;
+    Font* font;
 
     float spd;
     float hSpd;
     float vSpd;
+    float grav;
+    
+    int lastDir;
 
 public:
+    uint state;
+    uint animState;
+
     Player();                           // construtor
     ~Player();                          // destrutor
+
+    void PlayerMovement();
+    void PlayerAttack();
+    void PlayerHit();
+    void UpdateCamera();
     
     void Update();                      // atualização
     void Draw();                        // desenho

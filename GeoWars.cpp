@@ -11,15 +11,14 @@
 
 #include "Resources.h"
 #include "GeoWars.h"
-#include "Engine.h"    
-#include "Delay.h"
+#include "Engine.h"
 
 // ------------------------------------------------------------------------------
 
 Player * GeoWars::player  = nullptr;
 Audio  * GeoWars::audio   = nullptr;
 Scene  * GeoWars::scene   = nullptr;
-bool     GeoWars::viewHUD = false;
+World  * GeoWars::builder = nullptr;
 
 // ------------------------------------------------------------------------------
 
@@ -38,27 +37,12 @@ void GeoWars::Init()
     audio->Volume(START, 0.8f);
 
     // carrega/incializa objetos
-    backg   = new Background("Resources/Space.jpg");
     player  = new Player();
     scene   = new Scene();
+    builder = new World("Resources/debugMap.png");
 
     // adiciona objetos na cena (sem colisão)
     scene->Add(player, STATIC);
-    scene->Add(new Delay(), STATIC);
-
-    // ----------------------
-    // inicializa a viewport
-    // ----------------------
-
-    // calcula posição para manter viewport centralizada
-    float difx = (game->Width() - window->Width()) / 2.0f;
-    float dify = (game->Height() - window->Height()) / 2.0f;
-
-    // inicializa viewport para o centro do mundo
-    viewport.left = 0.0f + difx;
-    viewport.right = viewport.left + window->Width();
-    viewport.top = 0.0f + dify;
-    viewport.bottom = viewport.top + window->Height();
 }
 
 // ------------------------------------------------------------------------------
@@ -76,54 +60,14 @@ void GeoWars::Update()
     // ativa ou desativa a bounding box
     if (window->KeyPress('B'))
         viewBBox = !viewBBox;
-
-    // ativa ou desativa o heads up display
-    if (window->KeyPress('H'))
-        viewHUD = !viewHUD;
-
-    // --------------------
-    // atualiza a viewport
-    // --------------------
-
-    viewport.left   = player->X() - window->CenterX();
-    viewport.right  = player->X() + window->CenterX();
-    viewport.top    = player->Y() - window->CenterY();
-    viewport.bottom = player->Y() + window->CenterY();
-            
-    if (viewport.left < 0)
-    {
-        viewport.left  = 0;
-        viewport.right = window->Width();
-    }
-    else if (viewport.right > game->Width())
-    {  
-        viewport.left  = game->Width() - window->Width();
-        viewport.right = game->Width();
-    }
-                  
-    if (viewport.top < 0)
-    {
-        viewport.top  = 0;
-        viewport.bottom = window->Height();
-    }
-    else if (viewport.bottom > game->Height())
-    {
-        viewport.top = game->Height() - window->Height();
-        viewport.bottom = game->Height();
-    }
 } 
 
 // ------------------------------------------------------------------------------
 
 void GeoWars::Draw()
 {
-    // desenha pano de fundo
-    backg->Draw(viewport);
-
     // desenha a cena
     scene->Draw();
-
-    // desenha painel de informações
 
     // desenha bounding box
     if (viewBBox)
@@ -136,7 +80,6 @@ void GeoWars::Finalize()
 {
     delete audio;
     delete scene;
-    delete backg;
 }
 
 
@@ -152,20 +95,17 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
     // configura motor
     engine->window->Mode(WINDOWED);
-    engine->window->Size(1280, 720);
+    engine->window->Size(1152, 648);
     //engine->window->Mode(BORDERLESS);
     engine->window->Color(0, 0, 0);
     engine->window->Title("GeoWars");
     engine->window->Icon(IDI_ICON);
     engine->window->Cursor(IDC_CURSOR);
-    engine->window->HideCursor(true);
-    //engine->graphics->VSync(true);
+    engine->window->HideCursor(false);
+    engine->graphics->VSync(true);
 
     // cria o jogo
     Game * game = new GeoWars();
-
-    // configura o jogo
-    game->Size(2560, 720);
     
     // inicia execução
     engine->Start(game);

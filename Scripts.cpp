@@ -65,6 +65,17 @@ float Scripts::lerp(float start, float end, float t)
 	return start;
 }
 
+float Scripts::clamp(float val, float minVal, float maxVal)
+{
+	if (val < minVal)
+		val = minVal;
+
+	if (val > maxVal)
+		val = maxVal;
+
+	return val;
+}
+
 int Scripts::sign(float value)
 {
 	if (value < 0)
