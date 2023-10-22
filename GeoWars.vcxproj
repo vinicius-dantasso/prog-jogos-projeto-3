@@ -242,6 +242,7 @@
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="GeoWars.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="Grass.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Lamp.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GeoWars.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Grass.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Lamp.h" />

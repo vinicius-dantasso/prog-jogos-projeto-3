@@ -4,6 +4,7 @@
 #include "GeoWars.h"
 #include "Floor.h"
 #include "Lamp.h"
+#include "Grass.h"
 
 World::World(const char* path)
 {
@@ -20,12 +21,12 @@ World::World(const char* path)
 				&& image[3 * (xx + (yy * width)) + 2] == 255
 				)
 			{
-				// GRAMA
+				// CHÃO
 				Floor* floor = new Floor(xx * 48.0f, yy * 48.0f, GRASS);
 				GeoWars::scene->Add(floor, STATIC);
 			}
 			
-			else if (image[3 * (xx + (yy * width))] == 230
+			if (image[3 * (xx + (yy * width))] == 230
 				&& image[3 * (xx + (yy * width)) + 1] == 255
 				&& image[3 * (xx + (yy * width)) + 2] == 255
 				)
@@ -35,7 +36,7 @@ World::World(const char* path)
 				GeoWars::scene->Add(floor, STATIC);
 			}
 
-			else if (image[3 * (xx + (yy * width))] == 210
+			if (image[3 * (xx + (yy * width))] == 210
 				&& image[3 * (xx + (yy * width)) + 1] == 255
 				&& image[3 * (xx + (yy * width)) + 2] == 255
 				)
@@ -45,7 +46,7 @@ World::World(const char* path)
 				GeoWars::scene->Add(floor, STATIC);
 			}
 
-			else if (image[3 * (xx + (yy * width))] == 190
+			if (image[3 * (xx + (yy * width))] == 190
 				&& image[3 * (xx + (yy * width)) + 1] == 255
 				&& image[3 * (xx + (yy * width)) + 2] == 255
 				)
@@ -55,7 +56,7 @@ World::World(const char* path)
 				GeoWars::scene->Add(floor, STATIC);
 			}
 
-			else if (image[3 * (xx + (yy * width))] == 204
+			if (image[3 * (xx + (yy * width))] == 204
 				&& image[3 * (xx + (yy * width)) + 1] == 81
 				&& image[3 * (xx + (yy * width)) + 2] == 0
 				)
@@ -63,6 +64,16 @@ World::World(const char* path)
 				// LAMPARINA
 				Lamp* lamp = new Lamp(xx * 48.0f, yy * 44.5f);
 				GeoWars::scene->Add(lamp, STATIC);
+			}
+
+			if (image[3 * (xx + (yy * width))] == 255
+				&& image[3 * (xx + (yy * width)) + 1] == 178
+				&& image[3 * (xx + (yy * width)) + 2] == 255
+				)
+			{
+				// GRAMA
+				Grass* grass = new Grass(xx * 48.0f, yy * 50.2f);
+				GeoWars::scene->Add(grass, STATIC);
 			}
 
 		}

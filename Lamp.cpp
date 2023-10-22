@@ -33,7 +33,7 @@ Lamp::~Lamp()
 void Lamp::Update()
 {
     RandF posX{ x - 10.0f, x + 10.0f };
-    RandF posY{ y - 10.0f,y + 10.0f };
+    RandF posY{ y - 10.0f, y + 10.0f };
 
     fire->Generate(posX.Rand(), posY.Rand(), 1);
     fire->Update(gameTime);
