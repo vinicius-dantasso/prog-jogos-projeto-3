@@ -25,11 +25,13 @@ using std::string;                      // permite usar string sem std::
 class Background
 {
 private:
-    SpriteData spriteData;              // informações do sprite 
+    SpriteData spriteData1;              // informações do sprite 1
+    SpriteData spriteData2;              // informações do sprite 2
+    SpriteData spriteData3;              // informações do sprite 3
     const Image * image;                // imagem de fundo
 
 public:
-    Background(string filename);        // construtor    
+    Background(string filename, string filename2, string filename3);        // construtor    
     ~Background();                      // destrutor
 
     void Draw(ViewPort & sourceRect);   // desenha uma porção da imagem 

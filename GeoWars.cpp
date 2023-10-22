@@ -37,7 +37,7 @@ void GeoWars::Init()
     audio->Volume(START, 0.8f);
 
     // carrega/incializa objetos
-    backg = new Background("Resources/Space.jpg");
+    backg = new Background("Resources/background_layer_1.png", "Resources/background_layer_2.png", "Resources/background_layer_3.png");
     player  = new Player();
     scene   = new Scene();
     builder = new World("Resources/debugMap.png");
