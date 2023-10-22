@@ -3,6 +3,7 @@
 #include "stb_image.h"
 #include "GeoWars.h"
 #include "Floor.h"
+#include "Lamp.h"
 
 World::World(const char* path)
 {
@@ -52,6 +53,16 @@ World::World(const char* path)
 				// SOLO
 				Floor* floor = new Floor(xx * 48.0f, yy * 48.0f, SOIL);
 				GeoWars::scene->Add(floor, STATIC);
+			}
+
+			else if (image[3 * (xx + (yy * width))] == 204
+				&& image[3 * (xx + (yy * width)) + 1] == 81
+				&& image[3 * (xx + (yy * width)) + 2] == 0
+				)
+			{
+				// LAMPARINA
+				Lamp* lamp = new Lamp(xx * 48.0f, yy * 44.5f);
+				GeoWars::scene->Add(lamp, STATIC);
 			}
 
 		}

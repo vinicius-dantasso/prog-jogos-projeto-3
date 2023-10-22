@@ -244,6 +244,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Lamp.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Particles.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -275,6 +276,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="Lamp.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Particles.h" />
     <ClInclude Include="Player.h" />

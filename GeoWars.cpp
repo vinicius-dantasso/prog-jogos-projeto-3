@@ -42,7 +42,7 @@ void GeoWars::Init()
     scene   = new Scene();
     builder = new World("Resources/debugMap.png");
 
-    // adiciona objetos na cena (sem colisão)
+    // adiciona objetos na cena
     scene->Add(player, MOVING);
 
     // ----------------------

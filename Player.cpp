@@ -46,7 +46,7 @@ Player::Player()
     anim->Add(PLAYERATTACKL, SeqAttackLeft, 6);
 
     BBox(new Rect(-10,-16,10,35));
-    MoveTo(window->CenterX() / 2.0f, window->CenterY());
+    MoveTo((window->CenterX() / 2.0f) - 50.0f, window->CenterY());
 
     type = PLAYER;
     animState = PLAYERIDLER;
