@@ -12,7 +12,6 @@
 #include "Player.h" 
 #include "GeoWars.h"
 #include "Scripts.h"
-#include "Camera.h"
 #include <string>
 
 // -------------------------------------------------------------------------------
@@ -28,22 +27,28 @@ Player::Player()
     font->Spacing(85);
 
     uint SeqIdleRight[6] = { 0,1,2,3,4,5 };
-    uint SeqIdleLeft[6] = { 55,54,53,52,51,50 };
-    uint SeqMoveLeft[8] = { 71,70,69,68,67,66,65,64 };
     uint SeqMoveRight[8] = { 16,17,18,19,20,21,22,23 };
     uint SeqJumpRight[6] = { 24,25,26,27,28,29 };
-    uint SeqJumpLeft[6] = { 79,78,77,76,75,74 };
     uint SeqAttackRight[6] = { 8,9,10,11,12,13 };
+    uint SeqHitRight[3] = { 40,41,42 };
+
+    uint SeqIdleLeft[6] = { 55,54,53,52,51,50 };
+    uint SeqMoveLeft[8] = { 71,70,69,68,67,66,65,64 };
+    uint SeqJumpLeft[6] = { 79,78,77,76,75,74 };
     uint SeqAttackLeft[6] = { 63,62,61,60,59,58 };
+    uint SeqHitLeft[3] = { 95,94,93 };
 
     anim->Add(PLAYERIDLER, SeqIdleRight, 6);
-    anim->Add(PLAYERMOVER, SeqMoveRight, 8);
+    anim->Add(PLAYERMOVER, SeqMoveRight, 8); 
+    anim->Add(PLAYERJUMPR, SeqJumpRight, 6);  
+    anim->Add(PLAYERATTACKR, SeqAttackRight, 6);   
+    anim->Add(PLAYERHITR, SeqHitRight, 3);
+
     anim->Add(PLAYERMOVEL, SeqMoveLeft, 8);
     anim->Add(PLAYERIDLEL, SeqIdleLeft, 6);
-    anim->Add(PLAYERJUMPR, SeqJumpRight, 6);
     anim->Add(PLAYERJUMPL, SeqJumpLeft, 6);
-    anim->Add(PLAYERATTACKR, SeqAttackRight, 6);
     anim->Add(PLAYERATTACKL, SeqAttackLeft, 6);
+    anim->Add(PLAYERHITL, SeqAttackLeft, 3);
 
     BBox(new Rect(-10,-16,10,35));
     MoveTo((window->CenterX() / 2.0f) - 50.0f, window->CenterY());
@@ -53,10 +58,11 @@ Player::Player()
     state = PLAYERMOVE;
 
     lastDir = 0;
-    life = 3;
+    life = 5;
 
     grav = 30.0f;
     onGround = false;
+    hit = false;
 }
 
 // -------------------------------------------------------------------------------
@@ -76,7 +82,7 @@ void Player::OnCollision(Object* obj)
     if (obj->Type() == FLOOR)
     {
         vSpd = 0.0f;
-        MoveTo(x, obj->Y() - 58);
+        MoveTo(x, obj->Y() - 60);
         if (state != PLAYERATTACK)
             state = PLAYERMOVE;
         onGround = true;
@@ -84,18 +90,42 @@ void Player::OnCollision(Object* obj)
 
     if (obj->Type() == RIGHTWALL)
     {
+        vSpd = 0.0f;
         if (x >= obj->X() + 24)
             MoveTo(obj->X() + 32, y);
         else
             MoveTo(x, obj->Y() - 58);
+        onGround = true;
     }
 
     if (obj->Type() == LEFTWALL)
     {
+        vSpd = 0.0f;
         if (x <= obj->X() - 24)
             MoveTo(obj->X() - 32, y);
         else
             MoveTo(x, obj->Y() - 58);
+        onGround = true;
+    }
+
+    if (obj->Type() == ENEMY)
+    {
+        hit = true;
+        life -= 1;
+        float dir = Scripts::point_direction(obj->X(), obj->Y(), x, y - 10.0f);
+        knockBackDir = dir;
+        knockBackSpd = 200.0f;
+        state = PLAYERHIT;
+
+        switch (lastDir)
+        {
+        case 1:
+            animState = PLAYERHITR;
+            break;
+
+        case -1:
+            animState = PLAYERHITL;
+        }
     }
 }
 
@@ -111,6 +141,10 @@ void Player::Update()
 
     case PLAYERATTACK:
         PlayerAttack();
+        break;
+
+    case PLAYERHIT:
+        PlayerHit();
         break;
     }
 
@@ -233,14 +267,19 @@ void Player::PlayerAttack()
 
 void Player::PlayerHit()
 {
+    knockBackSpd = Scripts::lerp(knockBackSpd, 0.0f, 0.3f);
+    hSpd = Scripts::lengthdir_x(knockBackSpd, knockBackDir);
+    vSpd = Scripts::lengthdir_y(knockBackSpd, knockBackDir);
 
-}
+    vSpd += grav;
 
-// -------------------------------------------------------------------------------
-
-void Player::UpdateCamera()
-{
-    Camera::x = Scripts::clamp(this->X() - window->Width() / 2.0f, 0, (2560 * 3) - window->Width());
+    frames++;
+    if (frames >= maxFrames)
+    {
+        state = PLAYERMOVE;
+        hit = false;
+        frames = 0;
+    }
 }
 
 // -------------------------------------------------------------------------------

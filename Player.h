@@ -30,7 +30,9 @@ enum PlayerAnim {
     PLAYERJUMPR,
     PLAYERJUMPL,
     PLAYERATTACKL,
-    PLAYERATTACKR
+    PLAYERATTACKR,
+    PLAYERHITL,
+    PLAYERHITR
 };
 enum PlayerState {PLAYERMOVE, PLAYERHIT, PLAYERATTACK};
 
@@ -47,11 +49,16 @@ private:
     float hSpd;
     float vSpd;
     float grav;
+    float knockBackDir;
+    float knockBackSpd;
     
     int lastDir;
     int life;
+    int frames = 0;
+    int maxFrames = 15;
 
     bool onGround;
+    bool hit;
 
 public:
     uint state;
@@ -63,12 +70,17 @@ public:
     void PlayerMovement();
     void PlayerAttack();
     void PlayerHit();
-    void UpdateCamera();
+
+    bool isHit();
     
     void OnCollision(Object* obj);
     void Update();                      // atualização
     void Draw();                        // desenho
-}; 
+};
+
+inline bool Player::isHit()
+{ return hit; }
+
 // ---------------------------------------------------------------------------------
 
 #endif
