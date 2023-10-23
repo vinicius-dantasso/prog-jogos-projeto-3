@@ -36,11 +36,17 @@ Player::Player()
     playerSfx->Add(JMP2, "Resources/jump2.wav");
     playerSfx->Add(HRT1, "Resources/hurt1.wav");
     playerSfx->Add(HRT2, "Resources/hurt2.wav");
+    playerSfx->Add(MOV1, "Resources/footstep01.wav");
+    playerSfx->Add(MOV2, "Resources/footstep03.wav");
+
+    playerSfx->Volume(MOV1, 0.1f);
+    playerSfx->Volume(MOV2, 0.1f);
 
     tile = new TileSet("Resources/player_sheet.png", 90, 70, 8, 96);
     anim = new Animation(tile, 0.12f, true);
 
     attackTimer = new Timer();
+    sfxTimer = new Timer();
 
     font = new Font("Resources/m5x7.png");
     font->Spacing(85);
@@ -161,12 +167,24 @@ void Player::PlayerMovement()
     float spdDir = Scripts::point_direction(x, y, x + hDir, y);
 
     if (hDir != 0)
+    {
+        
+        //efeito sonoro de movimentação
+        if(sfxTimer->Elapsed(0.25f)){
+            sfxTimer->Reset();
+            int rand = mt() % 2;
+            playerSfx->Play(rand + 8);
+        }
+
         spd = 280.0f;
-    else
+    }else
         spd = 0.0f;
 
     if(onGround)
     {
+
+
+
         // Caso aperte ataque, mude de estado
         if (attack)
         {

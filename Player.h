@@ -43,7 +43,9 @@ enum PlayerSFC {
     JMP1,
     JMP2,
     HRT1,
-    HRT2
+    HRT2,
+    MOV1,
+    MOV2
 };
 
 class Player : public Object
@@ -51,6 +53,7 @@ class Player : public Object
 private:
 
     Audio * playerSfx;
+    Timer* sfxTimer;
     bool soundOn;
 
     TileSet* tile;

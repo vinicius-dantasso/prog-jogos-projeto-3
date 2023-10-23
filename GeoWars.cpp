@@ -36,7 +36,7 @@ void GeoWars::Init()
     // ajusta volumes
     audio->Volume(FIRE, 0.2f);
     audio->Volume(START, 0.8f);
-    audio->Volume(THEME, 0.8f);
+    audio->Volume(THEME, 0.5f);
 
     audio->Play(THEME, true);
 
