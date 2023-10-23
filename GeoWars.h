@@ -20,10 +20,11 @@
 #include "Background.h"
 #include "Player.h"
 #include "World.h"
+#include "Wolf.h"
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, FLOOR, RIGHTWALL, LEFTWALL, HITBOX };
+enum ObjectIds { PLAYER, FLOOR, RIGHTWALL, LEFTWALL, HITBOX, ENEMY };
 
 // ------------------------------------------------------------------------------
 
@@ -42,6 +43,7 @@ public:
     static Audio * audio;           // sitema de áudio
     static Scene * scene;           // cena do jogo
     static World * builder;         // construtor de mapa
+    static Wolf* wolf;
 
     void Init();                    // inicialização
     void Update();                  // atualização

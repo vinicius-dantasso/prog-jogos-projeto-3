@@ -19,6 +19,7 @@ Player * GeoWars::player  = nullptr;
 Audio  * GeoWars::audio   = nullptr;
 Scene  * GeoWars::scene   = nullptr;
 World  * GeoWars::builder = nullptr;
+Wolf   * GeoWars::wolf = nullptr;
 
 // ------------------------------------------------------------------------------
 
@@ -41,9 +42,12 @@ void GeoWars::Init()
     player  = new Player();
     scene   = new Scene();
     builder = new World("Resources/debugMap.png");
+    wolf = new Wolf((window->CenterX() / 2.0f) + 200.0F, window->CenterY() + 50.0f);
+
 
     // adiciona objetos na cena
     scene->Add(player, MOVING);
+    scene->Add(wolf, MOVING);
 
     // ----------------------
     // inicializa a viewport
