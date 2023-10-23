@@ -13,6 +13,7 @@
 #include "GeoWars.h"
 #include "Engine.h"
 
+
 // ------------------------------------------------------------------------------
 
 Player * GeoWars::player  = nullptr;
@@ -35,6 +36,7 @@ void GeoWars::Init()
     // ajusta volumes
     audio->Volume(FIRE, 0.2f);
     audio->Volume(START, 0.8f);
+    audio->Volume(THEME, 0.8f);
 
     audio->Play(THEME, true);
 
