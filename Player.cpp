@@ -98,7 +98,6 @@ void Player::OnCollision(Object* obj)
             MoveTo(obj->X() + 32, y);
         else
             MoveTo(x, obj->Y() - 58);
-        onGround = true;
     }
 
     if (obj->Type() == LEFTWALL)
@@ -108,7 +107,6 @@ void Player::OnCollision(Object* obj)
             MoveTo(obj->X() - 32, y);
         else
             MoveTo(x, obj->Y() - 58);
-        onGround = true;
     }
 
     if (obj->Type() == ENEMY)
@@ -132,6 +130,9 @@ void Player::OnCollision(Object* obj)
             animState = PLAYERHITL;
         }
     }
+
+    if (obj->Type() == TRIGGER)
+        triggered = true;
 }
 
 // -------------------------------------------------------------------------------

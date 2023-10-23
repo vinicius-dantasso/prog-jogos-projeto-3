@@ -7,6 +7,8 @@
 #include "Grass.h"
 #include "Fence.h"
 #include "Wolf.h"
+#include "Boss.h"
+#include "Trigger.h"
 
 World::World(const char* path)
 {
@@ -96,6 +98,26 @@ World::World(const char* path)
 				// LOBO
 				Wolf* wolf = new Wolf(xx * 48.0f, yy * 47.0f);
 				GeoWars::scene->Add(wolf, MOVING);
+			}
+
+			if (image[3 * (xx + (yy * width))] == 0
+				&& image[3 * (xx + (yy * width)) + 1] == 38
+				&& image[3 * (xx + (yy * width)) + 2] == 255
+				)
+			{
+				// BOSS
+				Boss* boss = new Boss(xx * 48.0f, yy * 47.0f);
+				GeoWars::scene->Add(boss, MOVING);
+			}
+
+			if (image[3 * (xx + (yy * width))] == 163
+				&& image[3 * (xx + (yy * width)) + 1] == 38
+				&& image[3 * (xx + (yy * width)) + 2] == 255
+				)
+			{
+				// TRIGGER
+				Trigger* trigger = new Trigger(xx * 48.0f, yy * 48.0f);
+				GeoWars::scene->Add(trigger, STATIC);
 			}
 
 		}

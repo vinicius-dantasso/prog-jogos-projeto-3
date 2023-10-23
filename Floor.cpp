@@ -26,6 +26,11 @@ Floor::Floor(float posX, float posY, uint imageType)
 	case SOIL:
 		sprite = new Sprite("Resources/floor_down.png");
 		break;
+
+	default:
+		type = TRIGGER;
+		BBox(new Rect(-24, -24, 24, 24));
+		break;
 	}
 
 	MoveTo(posX, posY);
