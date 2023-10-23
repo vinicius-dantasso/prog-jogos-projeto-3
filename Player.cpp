@@ -34,6 +34,8 @@ Player::Player()
     playerSfx->Add(ATT4, "Resources/attack4.wav");
     playerSfx->Add(JMP1, "Resources/jump1.wav");
     playerSfx->Add(JMP2, "Resources/jump2.wav");
+    playerSfx->Add(HRT1, "Resources/hurt1.wav");
+    playerSfx->Add(HRT2, "Resources/hurt2.wav");
 
     tile = new TileSet("Resources/player_sheet.png", 90, 70, 8, 96);
     anim = new Animation(tile, 0.12f, true);
@@ -265,7 +267,11 @@ void Player::PlayerAttack()
 
 void Player::PlayerHit()
 {
-
+    //flag soundOn usada como placeholder
+    if (!soundOn) {
+        int rand = mt() % 2;
+        playerSfx->Play(rand + 6);
+    }
 }
 
 // -------------------------------------------------------------------------------
