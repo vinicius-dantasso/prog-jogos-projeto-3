@@ -14,11 +14,25 @@
 #include "Scripts.h"
 #include "Camera.h"
 #include <string>
+#include <random>
+//#include <>
+
+// -------------------------------------------------------------------------------
+
+std::random_device rd;
+std::mt19937 mt(rd());
 
 // -------------------------------------------------------------------------------
 
 Player::Player()
 {
+
+    playerSfx = new Audio();
+    playerSfx->Add(ATT1, "Resources/attack1.wav");
+    playerSfx->Add(ATT2, "Resources/attack2.wav");
+    playerSfx->Add(ATT3, "Resources/attack3.wav");
+    playerSfx->Add(ATT4, "Resources/attack4.wav");
+
     tile = new TileSet("Resources/player_sheet.png", 90, 70, 8, 96);
     anim = new Animation(tile, 0.12f, true);
 
@@ -67,6 +81,7 @@ Player::~Player()
     delete anim;
     delete font;
     delete attackTimer;
+    delete playerSfx;
 }
 
 // -------------------------------------------------------------------------------
@@ -210,6 +225,14 @@ void Player::PlayerMovement()
 
 void Player::PlayerAttack()
 {
+    //toca som apenas uma vez
+    if(!soundOn){
+        soundOn = true;
+        int rand = mt() % 4;
+        playerSfx->Play(rand);
+    }
+
+
     switch (lastDir)
     {
     case 1:
@@ -225,8 +248,11 @@ void Player::PlayerAttack()
         break;
     }
 
-    if (attackTimer->Elapsed(0.5f))
+
+    if (attackTimer->Elapsed(0.5f)){
         state = PLAYERMOVE;
+        soundOn = false;
+    }
 }
 
 // -------------------------------------------------------------------------------

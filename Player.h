@@ -19,6 +19,7 @@
 #include "Timer.h"
 #include "Font.h"
 #include "HitBox.h"
+#include "Audio.h"
 
 // ---------------------------------------------------------------------------------
 
@@ -34,9 +35,20 @@ enum PlayerAnim {
 };
 enum PlayerState {PLAYERMOVE, PLAYERHIT, PLAYERATTACK};
 
+enum PlayerSFC {
+    ATT1,
+    ATT2,
+    ATT3,
+    ATT4
+};
+
 class Player : public Object
 {
 private:
+
+    Audio * playerSfx;
+    bool soundOn;
+
     TileSet* tile;
     Animation* anim;
     Timer* attackTimer;
