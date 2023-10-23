@@ -3,9 +3,27 @@
 #include "GeoWars.h"
 #include "Random.h"
 #include "Scripts.h"
+#include "Random.h"
+
+// -------------------------------------------------------------------------------
+//gerador aleatório para efeitos sonoros
+RandI *  rSfx = new RandI(0, 1);
 
 Wolf::Wolf(float posX, float posY)
 {
+	sfxTimer = new Timer();
+	sfx = new Audio();
+	sfx->Add(0, "Resources/footstep02.wav");
+	sfx->Add(1, "Resources/footstep04.wav");
+	sfx->Add(2, "Resources/GhostDogBark1.wav");
+	sfx->Add(3, "Resources/GhostDogBark2.wav");
+	sfx->Add(4, "Resources/GhostDogDie.wav");
+
+	sfx->Volume(0, 0.1f);
+	sfx->Volume(1, 0.1f);
+
+	sfxTimer->Start();
+
 	tile = new TileSet("Resources/wolf_sheet.png",64,64,7,56);
 	anim = new Animation(tile, 0.12f, true);
 	stateTimer = new Timer();
@@ -47,6 +65,7 @@ Wolf::Wolf(float posX, float posY)
 
 Wolf::~Wolf()
 {
+	delete sfx;
 	delete tile;
 	delete anim;
 	delete stateTimer;
@@ -95,6 +114,9 @@ void Wolf::OnCollision(Object* obj)
 
 void Wolf::Update()
 {
+
+	int rand = rSfx->Rand();
+
 	if (!hit && life > 0 && stateTimer->Elapsed(stateTime))
 	{
 		RandF range{ 1.0f,3.0f };
@@ -116,6 +138,10 @@ void Wolf::Update()
 
 	case WANDERING:
 		Wandering();
+		if(sfxTimer->Elapsed(0.25f)){
+			sfx->Play(rand);
+			sfxTimer->Reset();
+		}
 
 		if (destX > x)
 			animState = WOLFMOVER;
