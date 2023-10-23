@@ -26,7 +26,7 @@ void GeoWars::Init()
 {
     // cria sistema de áudio
     audio = new Audio();
-    audio->Add(THEME, "Resources/Theme.wav");
+    audio->Add(THEME, "Resources/Goblin-Mischief.wav");
     audio->Add(FIRE, "Resources/Fire.wav");
     audio->Add(HITWALL, "Resources/Hitwall.wav");
     audio->Add(EXPLODE, "Resources/Explode.wav");
@@ -35,6 +35,8 @@ void GeoWars::Init()
     // ajusta volumes
     audio->Volume(FIRE, 0.2f);
     audio->Volume(START, 0.8f);
+
+    audio->Play(THEME, true);
 
     // carrega/incializa objetos
     backg = new Background("Resources/background_layer_1.png", "Resources/background_layer_2.png", "Resources/background_layer_3.png");

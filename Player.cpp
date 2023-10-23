@@ -32,6 +32,8 @@ Player::Player()
     playerSfx->Add(ATT2, "Resources/attack2.wav");
     playerSfx->Add(ATT3, "Resources/attack3.wav");
     playerSfx->Add(ATT4, "Resources/attack4.wav");
+    playerSfx->Add(JMP1, "Resources/jump1.wav");
+    playerSfx->Add(JMP2, "Resources/jump2.wav");
 
     tile = new TileSet("Resources/player_sheet.png", 90, 70, 8, 96);
     anim = new Animation(tile, 0.12f, true);
@@ -214,6 +216,10 @@ void Player::PlayerMovement()
     if (jump && onGround)
     {
         vSpd -= 550.0f;
+
+        int rand = mt() % 2;
+        playerSfx->Play(rand + 4);
+
         onGround = false;
         jump = 0;
     }

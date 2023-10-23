@@ -39,7 +39,9 @@ enum PlayerSFC {
     ATT1,
     ATT2,
     ATT3,
-    ATT4
+    ATT4,
+    JMP1,
+    JMP2
 };
 
 class Player : public Object
