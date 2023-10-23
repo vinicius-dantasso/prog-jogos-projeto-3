@@ -6,6 +6,7 @@
 #include "Lamp.h"
 #include "Grass.h"
 #include "Fence.h"
+#include "Wolf.h"
 
 World::World(const char* path)
 {
@@ -85,6 +86,16 @@ World::World(const char* path)
 				// CERCA
 				Fence* fence = new Fence(xx * 48.0f, yy * 48.5f);
 				GeoWars::scene->Add(fence, STATIC);
+			}
+
+			if (image[3 * (xx + (yy * width))] == 255
+				&& image[3 * (xx + (yy * width)) + 1] == 0
+				&& image[3 * (xx + (yy * width)) + 2] == 0
+				)
+			{
+				// LOBO
+				Wolf* wolf = new Wolf(xx * 48.0f, yy * 47.0f);
+				GeoWars::scene->Add(wolf, MOVING);
 			}
 
 		}
