@@ -38,8 +38,8 @@ Player::Player()
     playerSfx->Add(MOV1, "Resources/footstep01.wav");
     playerSfx->Add(MOV2, "Resources/footstep03.wav");
 
-    playerSfx->Volume(MOV1, 0.1f);
-    playerSfx->Volume(MOV2, 0.1f);
+    playerSfx->Volume(MOV1, 0.2f);
+    playerSfx->Volume(MOV2, 0.2f);
 
     tile = new TileSet("Resources/player_sheet.png", 90, 70, 8, 96);
     anim = new Animation(tile, 0.12f, true);

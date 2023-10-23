@@ -7,20 +7,21 @@
 
 // -------------------------------------------------------------------------------
 //gerador aleatório para efeitos sonoros
-RandI *  rSfx = new RandI(0, 1);
+RandI rSfx = RandI(0, 1);
 
 Wolf::Wolf(float posX, float posY)
 {
 	sfxTimer = new Timer();
 	sfx = new Audio();
-	sfx->Add(0, "Resources/footstep02.wav");
-	sfx->Add(1, "Resources/footstep04.wav");
-	sfx->Add(2, "Resources/GhostDogBark1.wav");
-	sfx->Add(3, "Resources/GhostDogBark2.wav");
-	sfx->Add(4, "Resources/GhostDogDie.wav");
+	sfx->Add(WOLFMOV1, "Resources/footstep02.wav");
+	sfx->Add(WOLFMOV2, "Resources/footstep04.wav");
+	sfx->Add(WOLFATT1, "Resources/GhostDogBark1.wav");
+	sfx->Add(WOLFATT2, "Resources/GhostDogBark2.wav");
+	sfx->Add(WOLFDIE, "Resources/GhostDogDie.wav");
 
-	sfx->Volume(0, 0.1f);
-	sfx->Volume(1, 0.1f);
+	sfx->Volume(WOLFMOV1, 0.4f);
+	sfx->Volume(WOLFMOV2, 0.4f);
+	sfx->Volume(WOLFDIE, 2.0f);
 
 	sfxTimer->Start();
 
@@ -115,7 +116,7 @@ void Wolf::OnCollision(Object* obj)
 void Wolf::Update()
 {
 
-	int rand = rSfx->Rand();
+	int rand = rSfx.Rand();
 
 	if (!hit && life > 0 && stateTimer->Elapsed(stateTime))
 	{
@@ -169,6 +170,11 @@ void Wolf::Update()
 	case ATTACKING:
 		Attacking();
 
+		if (sfxTimer->Elapsed(0.4f)) {
+			sfx->Play(rand + 2);
+			sfxTimer->Reset();
+		}
+
 		if (destX > x)
 			animState = WOLFMOVER;
 		else
@@ -178,6 +184,7 @@ void Wolf::Update()
 
 	case ENEMYHIT:
 		Hit();
+		sfx->Play(WOLFDIE);
 		break;
 	}
 
