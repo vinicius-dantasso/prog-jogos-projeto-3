@@ -26,6 +26,8 @@ public:
 	float destY;
 	float grav;
 	float stateTime;
+	float knockBackDir;
+	float knockBackSpd;
 
 	int life;
 

@@ -2,6 +2,7 @@
 #include "Wolf.h"
 #include "GeoWars.h"
 #include "Random.h"
+#include "Scripts.h"
 
 Wolf::Wolf(float posX, float posY)
 {
@@ -63,7 +64,7 @@ void Wolf::OnCollision(Object* obj)
 	if (obj->Type() == RIGHTWALL)
 	{
 		if (x >= obj->X() + 24)
-			MoveTo(obj->X() + 32, y);
+			MoveTo(obj->X() + 64, y);
 		else
 			MoveTo(x, obj->Y() - 58);
 	}
@@ -71,15 +72,30 @@ void Wolf::OnCollision(Object* obj)
 	if (obj->Type() == LEFTWALL)
 	{
 		if (x <= obj->X() - 24)
-			MoveTo(obj->X() - 32, y);
+			MoveTo(obj->X() - 64, y);
 		else
 			MoveTo(x, obj->Y() - 58);
+	}
+
+	if (obj->Type() == HITBOX && !hit)
+	{
+		hit = true;
+		life -= 1;
+		float dir = Scripts::point_direction(GeoWars::player->X(), GeoWars::player->Y(), obj->X(), obj->Y());
+		knockBackDir = dir;
+		knockBackSpd = 200.0f;
+		state = ENEMYHIT;
+
+		if (GeoWars::player->X() < x)
+			animState = WOLFHITL;
+		else
+			animState = WOLFHITR;
 	}
 }
 
 void Wolf::Update()
 {
-	if (stateTimer->Elapsed(stateTime))
+	if (!hit && life > 0 && stateTimer->Elapsed(stateTime))
 	{
 		RandF range{ 1.0f,3.0f };
 		stateTime = range.Rand();
@@ -88,6 +104,9 @@ void Wolf::Update()
 		vSpd = 0.0f;
 		state = CHOOSESTATE;
 	}
+
+	if (!hit && life > 0 && Scripts::distance_to_object(this, GeoWars::player) <= 350.0f)
+		state = ATTACKING;
 
 	switch (state)
 	{
@@ -123,7 +142,28 @@ void Wolf::Update()
 
 	case ATTACKING:
 		Attacking();
+
+		if (destX > x)
+			animState = WOLFMOVER;
+		else
+			animState = WOLFMOVEL;
+
 		break;
+
+	case ENEMYHIT:
+		Hit();
+		break;
+	}
+
+	if (life <= 0)
+	{
+		if (x > GeoWars::player->X())
+			animState = WOLFDEADL;
+		else
+			animState = WOLFDEADR;
+
+		if (stateTimer->Elapsed(0.2f))
+			GeoWars::scene->Delete(this, MOVING);
 	}
 
 	vSpd += grav;
@@ -137,4 +177,18 @@ void Wolf::Update()
 void Wolf::Draw()
 {
 	anim->Draw(x, y, Layer::UPPER);
+}
+
+void Wolf::Hit()
+{
+	knockBackSpd = Scripts::lerp(knockBackSpd, 0.0f, 0.3f);
+	hSpd = Scripts::lengthdir_x(knockBackSpd, knockBackDir);
+
+	if (stateTimer->Elapsed(0.3f))
+	{
+		state = STOPPED;
+		stateTimer->Reset();
+		stateTime = 1.0f;
+		hit = false;
+	}
 }

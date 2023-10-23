@@ -2,11 +2,16 @@
 #include "Enemy.h"
 #include "Random.h"
 #include "Scripts.h"
+#include "GeoWars.h"
 
 Enemy::Enemy()
 {
 	life = 3;
+
 	grav = 30.0f;
+	knockBackDir = 0.0f;
+	knockBackSpd = 0.0f;
+
 	hit = false;
 	onGround = false;
 	onDestiny = false;
@@ -57,10 +62,20 @@ void Enemy::Wandering()
 
 void Enemy::Attacking()
 {
+	destX = GeoWars::player->X();
 
+	float dir = Scripts::point_direction(x, y, destX, y);
+	hSpd = Scripts::lengthdir_x(spd, dir);
+
+	if (Scripts::distance_to_object(this, GeoWars::player) >= 300.0f)
+	{
+		hSpd = 0.0f;
+		vSpd = 0.0f;
+		state = CHOOSESTATE;
+	}
 }
 
 void Enemy::Hit()
 {
-
+	
 }

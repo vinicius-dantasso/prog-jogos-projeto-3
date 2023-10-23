@@ -16,6 +16,6 @@ HitBox::~HitBox(){}
 
 void HitBox::Update()
 {
-	if (timer->Elapsed(0.2f))
+	if (timer->Elapsed(0.1f))
 		GeoWars::scene->Delete(this, STATIC);
 }

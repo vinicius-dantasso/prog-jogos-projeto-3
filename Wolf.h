@@ -14,6 +14,8 @@ public:
 	Wolf(float posX, float posY);
 	~Wolf();
 
+	void Hit();
+
 	void OnCollision(Object* obj);
 	void Update();
 	void Draw();
