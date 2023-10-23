@@ -246,6 +246,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="HitBox.cpp" />
+    <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Lamp.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="HitBox.h" />
+    <ClInclude Include="Hud.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Lamp.h" />
     <ClInclude Include="Object.h" />

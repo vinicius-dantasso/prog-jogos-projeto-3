@@ -21,6 +21,9 @@ Player::Player()
     tile = new TileSet("Resources/player_sheet.png", 90, 70, 8, 96);
     anim = new Animation(tile, 0.12f, true);
 
+    gamepad = new Controller();
+    xboxOn = gamepad->XboxInitialize(xboxPlayer);
+
     attackTimer = new Timer();
 
     font = new Font("Resources/m5x7.png");
@@ -120,10 +123,12 @@ void Player::OnCollision(Object* obj)
         switch (lastDir)
         {
         case 1:
+        case 8:
             animState = PLAYERHITR;
             break;
 
         case -1:
+        case -4:
             animState = PLAYERHITL;
         }
     }
@@ -159,7 +164,7 @@ void Player::Update()
 void Player::Draw()
 {
     Color white(1.0f, 1.0f, 1.0f, 1.0f);
-    std::string str = std::to_string(anim->Frame());
+    //std::string str = std::to_string(attack);
 
     //font->Draw(x,y-30,str,white,Layer::FRONT,0.3f);
     anim->Draw(x, y, Layer::UPPER);
@@ -171,7 +176,16 @@ void Player::PlayerMovement()
 {
     int hDir = -window->KeyDown(VK_LEFT) + window->KeyDown(VK_RIGHT);
     int jump = window->KeyPress(VK_UP);
-    int attack = window->KeyPress(VK_SPACE);
+    bool attack = window->KeyPress(VK_SPACE);
+
+    if (xboxOn)
+    {
+        gamepad->XboxUpdateState(xboxPlayer);
+
+        hDir = -gamepad->XboxButton(DpadLeft) + gamepad->XboxButton(DpadRight);
+        jump = gamepad->XboxButton(ButtonA);
+        attack = gamepad->XboxButton(ButtonX);
+    }
 
     float spdDir = Scripts::point_direction(x, y, x + hDir, y);
 
@@ -185,7 +199,7 @@ void Player::PlayerMovement()
         // Caso aperte ataque, mude de estado
         if (attack)
         {
-            attack = 0;
+            attack = false;
             spd = 0.0f;
             attackTimer->Start();
             state = PLAYERATTACK;
@@ -195,19 +209,21 @@ void Player::PlayerMovement()
         switch (hDir)
         {
         case 1:
-            lastDir = 1;
+        case 8:
+            lastDir = hDir;
             animState = PLAYERMOVER;
             break;
 
         case -1:
-            lastDir = -1;
+        case -4:
+            lastDir = hDir;
             animState = PLAYERMOVEL;
             break;
 
         default:
-            if (lastDir == 1)
+            if (lastDir == 1 || lastDir == 8)
                 animState = PLAYERIDLER;
-            else if (lastDir == -1)
+            else if (lastDir == -1 || lastDir == -4)
                 animState = PLAYERIDLEL;
         }
     }
@@ -217,10 +233,12 @@ void Player::PlayerMovement()
         switch (lastDir)
         {
         case 1:
+        case 8:
             animState = PLAYERJUMPR;
             break;
 
         case -1:
+        case -4:
             animState = PLAYERJUMPL;
             break;
         }
@@ -247,12 +265,14 @@ void Player::PlayerAttack()
     switch (lastDir)
     {
     case 1:
+    case 8:
         animState = PLAYERATTACKR;
         hitbox = new HitBox(x + 32, y);
         GeoWars::scene->Add(hitbox, STATIC);
         break;
 
     case -1:
+    case -4:
         animState = PLAYERATTACKL;
         hitbox = new HitBox(x - 32, y);
         GeoWars::scene->Add(hitbox, STATIC);

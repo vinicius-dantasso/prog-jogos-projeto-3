@@ -19,6 +19,7 @@ Player * GeoWars::player  = nullptr;
 Audio  * GeoWars::audio   = nullptr;
 Scene  * GeoWars::scene   = nullptr;
 World  * GeoWars::builder = nullptr;
+Hud    * GeoWars::hud     = nullptr;
 
 // ------------------------------------------------------------------------------
 
@@ -41,9 +42,11 @@ void GeoWars::Init()
     player  = new Player();
     scene   = new Scene();
     builder = new World("Resources/debugMap.png");
+    hud = new Hud();
 
     // adiciona objetos na cena
     scene->Add(player, MOVING);
+    scene->Add(hud, STATIC);
 
     // ----------------------
     // inicializa a viewport
@@ -130,6 +133,7 @@ void GeoWars::Finalize()
     delete audio;
     delete scene;
     delete backg;
+    delete builder;
 }
 
 

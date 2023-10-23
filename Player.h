@@ -19,6 +19,7 @@
 #include "Timer.h"
 #include "Font.h"
 #include "HitBox.h"
+#include "Controller.h"
 
 // ---------------------------------------------------------------------------------
 
@@ -44,6 +45,7 @@ private:
     Timer* attackTimer;
     Font* font;
     HitBox* hitbox;
+    Controller* gamepad;
 
     float spd;
     float hSpd;
@@ -59,6 +61,9 @@ private:
 
     bool onGround;
     bool hit;
+    bool xboxOn = false;
+
+    uint xboxPlayer = PLAYER1;
 
 public:
     uint state;
@@ -71,6 +76,8 @@ public:
     void PlayerAttack();
     void PlayerHit();
 
+    int Life();
+
     bool isHit();
     
     void OnCollision(Object* obj);
@@ -80,6 +87,9 @@ public:
 
 inline bool Player::isHit()
 { return hit; }
+
+inline int Player::Life()
+{ return life; }
 
 // ---------------------------------------------------------------------------------
 

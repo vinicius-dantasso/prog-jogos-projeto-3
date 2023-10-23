@@ -53,6 +53,7 @@ Wolf::~Wolf()
 	delete tile;
 	delete anim;
 	delete stateTimer;
+	delete attackTimer;
 }
 
 void Wolf::OnCollision(Object* obj)
