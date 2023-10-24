@@ -77,7 +77,7 @@ Player::Player()
     anim->Add(PLAYERHITL, SeqAttackLeft, 3);
 
     BBox(new Rect(-10,-16,10,35));
-    MoveTo((window->CenterX() / 2.0f) - 50.0f, window->CenterY());
+    MoveTo((window->CenterX() / 2.0f) - 50.0f, window->CenterY() + 96.0f);
 
     type = PLAYER;
     animState = PLAYERIDLER;
@@ -119,23 +119,27 @@ void Player::OnCollision(Object* obj)
     {
         vSpd = 0.0f;
         if (x >= obj->X() + 24)
+        {
+            onGround = true;
             MoveTo(obj->X() + 32, y);
+        }
         else
             MoveTo(x, obj->Y() - 58);
-        onGround = true;
     }
 
     if (obj->Type() == LEFTWALL)
     {
         vSpd = 0.0f;
         if (x <= obj->X() - 24)
+        {
+            onGround = true;
             MoveTo(obj->X() - 32, y);
+        }
         else
             MoveTo(x, obj->Y() - 58);
-        onGround = true;
     }
 
-    if (obj->Type() == ENEMY)
+    if (obj->Type() == ENEMY || obj->Type() == ENEMYHITBOX)
     {
         hit = true;
         life -= 1;
@@ -156,6 +160,9 @@ void Player::OnCollision(Object* obj)
             animState = PLAYERHITL;
         }
     }
+
+    if (obj->Type() == TRIGGER)
+        triggered = true;
 }
 
 // -------------------------------------------------------------------------------
@@ -165,7 +172,8 @@ void Player::Update()
     switch (state)
     {
     case PLAYERMOVE:
-        PlayerMovement();
+        if(GeoWars::canPlay)
+            PlayerMovement();
         break;
 
     case PLAYERATTACK:
@@ -176,6 +184,11 @@ void Player::Update()
         PlayerHit();
         break;
     }
+
+    if (x <= 0)
+        MoveTo(x + 5, y);
+    else if (x >= game->Width())
+        MoveTo(x - 10, y);
 
     Translate(hSpd * gameTime, vSpd * gameTime);
 
@@ -315,14 +328,14 @@ void Player::PlayerAttack()
     case 1:
     case 8:
         animState = PLAYERATTACKR;
-        hitbox = new HitBox(x + 32, y);
+        hitbox = new HitBox(x + 32, y, HITBOX);
         GeoWars::scene->Add(hitbox, STATIC);
         break;
 
     case -1:
     case -4:
         animState = PLAYERATTACKL;
-        hitbox = new HitBox(x - 32, y);
+        hitbox = new HitBox(x - 32, y, HITBOX);
         GeoWars::scene->Add(hitbox, STATIC);
         break;
     }

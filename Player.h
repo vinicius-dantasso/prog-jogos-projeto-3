@@ -80,6 +80,7 @@ private:
 
     bool onGround;
     bool hit;
+    bool triggered;
     bool xboxOn = false;
 
     uint xboxPlayer = PLAYER1;
@@ -98,6 +99,7 @@ public:
     int Life();
 
     bool isHit();
+    bool Triggered();
     
     void OnCollision(Object* obj);
     void Update();                      // atualiza��o
@@ -109,6 +111,9 @@ inline bool Player::isHit()
 
 inline int Player::Life()
 { return life; }
+
+inline bool Player::Triggered()
+{ return triggered; }
 
 // ---------------------------------------------------------------------------------
 
