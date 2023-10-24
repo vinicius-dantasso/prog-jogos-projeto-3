@@ -21,6 +21,8 @@
 #include "Player.h"
 #include "World.h"
 #include "Hud.h"
+#include "Sprite.h"
+#include "Font.h"
 
 // ------------------------------------------------------------------------------
 
@@ -36,6 +38,8 @@ class GeoWars : public Game
 {
 private:
     Background* backg = nullptr;   // pano de fundo
+    Sprite* logo = nullptr;
+    Font* font = nullptr;
     bool viewBBox = false;          // visualização das bouding boxes
 
 public:
@@ -44,6 +48,12 @@ public:
     static Scene * scene;           // cena do jogo
     static World * builder;         // construtor de mapa
     static Hud * hud;
+    static bool canPlay;
+
+    int frames = 0;
+    int maxFrames = 25;
+
+    bool canDraw;
 
     void Init();                    // inicialização
     void Update();                  // atualização

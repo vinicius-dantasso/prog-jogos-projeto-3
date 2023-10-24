@@ -54,7 +54,7 @@ Player::Player()
     anim->Add(PLAYERHITL, SeqAttackLeft, 3);
 
     BBox(new Rect(-10,-16,10,35));
-    MoveTo((window->CenterX() / 2.0f) - 50.0f, window->CenterY());
+    MoveTo((window->CenterX() / 2.0f) - 50.0f, window->CenterY() + 96.0f);
 
     type = PLAYER;
     animState = PLAYERIDLER;
@@ -148,7 +148,8 @@ void Player::Update()
     switch (state)
     {
     case PLAYERMOVE:
-        PlayerMovement();
+        if(GeoWars::canPlay)
+            PlayerMovement();
         break;
 
     case PLAYERATTACK:
