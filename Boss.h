@@ -7,13 +7,19 @@
 #include "Animation.h"
 #include "Timer.h"
 #include "Random.h"
+#include "Audio.h"
 
 enum BossAnim {BOSSIDLE,BOSSSPAWN,BOSSDEATH,BOSSPRE,BOSSATTACK,BOSSSUMMON};
 enum BossState {APPEARANCE,BOSSSTOP,BOSSATT,BOSSPREATT,BOSSSUMM, BOSSDEAD};
+enum Bosssf { BOSSSPWN, BOSSLGHT1, BOSSLGHT2, BOSSHT1, BOSSHT2};
 
 class Boss : public Object
 {
 private:
+
+	Audio* sfx;
+	Timer* sfxTimer;
+
 	TileSet* tile;
 	Animation* anim;
 	Timer* animTimer;

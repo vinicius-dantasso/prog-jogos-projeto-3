@@ -359,23 +359,24 @@ void Player::PlayerHit()
 }
 
 // -------------------------------------------------------------------------------
-
-void Player::UpdateCamera()
-{
-    Camera::x = Scripts::clamp(this->X() - window->Width() / 2.0f, 0, (2560 * 3) - window->Width());
-    knockBackSpd = Scripts::lerp(knockBackSpd, 0.0f, 0.3f);
-    hSpd = Scripts::lengthdir_x(knockBackSpd, knockBackDir);
-    vSpd = Scripts::lengthdir_y(knockBackSpd, knockBackDir);
-
-    vSpd += grav;
-
-    frames++;
-    if (frames >= maxFrames)
-    {
-        state = PLAYERMOVE;
-        hit = false;
-        frames = 0;
-    }
-}
+// 
+//
+//void Player::UpdateCamera()
+//{
+//    Camera::x = Scripts::clamp(this->X() - window->Width() / 2.0f, 0, (2560 * 3) - window->Width());
+//    knockBackSpd = Scripts::lerp(knockBackSpd, 0.0f, 0.3f);
+//    hSpd = Scripts::lengthdir_x(knockBackSpd, knockBackDir);
+//    vSpd = Scripts::lengthdir_y(knockBackSpd, knockBackDir);
+//
+//    vSpd += grav;
+//
+//    frames++;
+//    if (frames >= maxFrames)
+//    {
+//        state = PLAYERMOVE;
+//        hit = false;
+//        frames = 0;
+//    }
+//}
 
 // -------------------------------------------------------------------------------
