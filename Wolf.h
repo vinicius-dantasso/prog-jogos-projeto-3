@@ -3,11 +3,19 @@
 #define _WOLF_H_
 
 #include "Enemy.h"
+#include "Audio.h"
+#include "Timer.h"
 
 enum WolfAnim { WOLFIDLEL, WOLFIDLER, WOLFMOVEL, WOLFMOVER, WOLFHITL, WOLFHITR, WOLFDEADL, WOLFDEADR };
 
+enum WolfSfx { WOLFMOV1, WOLFMOV2, WOLFATT1, WOLFATT2, WOLFDIE};
+
 class Wolf : public Enemy
 {
+private:
+	Audio * sfx;
+	Timer * sfxTimer;
+
 public:
 	uint animState;
 

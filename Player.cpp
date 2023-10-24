@@ -1,11 +1,11 @@
 /**********************************************************************************
-// Player (Código Fonte)
+// Player (Cï¿½digo Fonte)
 // 
-// Criação:     10 Out 2012
-// Atualização: 01 Nov 2021
+// Criaï¿½ï¿½o:     10 Out 2012
+// Atualizaï¿½ï¿½o: 01 Nov 2021
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Define a classe jogador
+// Descriï¿½ï¿½o:   Define a classe jogador
 //
 **********************************************************************************/
 
@@ -13,11 +13,33 @@
 #include "GeoWars.h"
 #include "Scripts.h"
 #include <string>
+#include <random>
+
+// -------------------------------------------------------------------------------
+
+std::random_device rd;
+std::mt19937 mt(rd());
 
 // -------------------------------------------------------------------------------
 
 Player::Player()
 {
+
+    playerSfx = new Audio();
+    playerSfx->Add(ATT1, "Resources/attack1.wav");
+    playerSfx->Add(ATT2, "Resources/attack2.wav");
+    playerSfx->Add(ATT3, "Resources/attack3.wav");
+    playerSfx->Add(ATT4, "Resources/attack4.wav");
+    playerSfx->Add(JMP1, "Resources/jump1.wav");
+    playerSfx->Add(JMP2, "Resources/jump2.wav");
+    playerSfx->Add(HRT1, "Resources/hurt1.wav");
+    playerSfx->Add(HRT2, "Resources/hurt2.wav");
+    playerSfx->Add(MOV1, "Resources/footstep01.wav");
+    playerSfx->Add(MOV2, "Resources/footstep03.wav");
+
+    playerSfx->Volume(MOV1, 0.2f);
+    playerSfx->Volume(MOV2, 0.2f);
+
     tile = new TileSet("Resources/player_sheet.png", 90, 70, 8, 96);
     anim = new Animation(tile, 0.12f, true);
 
@@ -25,6 +47,7 @@ Player::Player()
     xboxOn = gamepad->XboxInitialize(xboxPlayer);
 
     attackTimer = new Timer();
+    sfxTimer = new Timer();
 
     font = new Font("Resources/m5x7.png");
     font->Spacing(85);
@@ -76,6 +99,7 @@ Player::~Player()
     delete anim;
     delete font;
     delete attackTimer;
+    delete playerSfx;
 }
 
 // -------------------------------------------------------------------------------
@@ -206,12 +230,24 @@ void Player::PlayerMovement()
     float spdDir = Scripts::point_direction(x, y, x + hDir, y);
 
     if (hDir != 0)
+    {
+        
+        //efeito sonoro de movimentaï¿½ï¿½o
+        if(sfxTimer->Elapsed(0.25f)){
+            sfxTimer->Reset();
+            int rand = mt() % 2;
+            playerSfx->Play(rand + 8);
+        }
+
         spd = 280.0f;
-    else
+    }else
         spd = 0.0f;
 
     if(onGround)
     {
+
+
+
         // Caso aperte ataque, mude de estado
         if (attack)
         {
@@ -221,7 +257,7 @@ void Player::PlayerMovement()
             state = PLAYERATTACK;
         }
 
-        // Controla as animações quando estiver em solo
+        // Controla as animaï¿½ï¿½es quando estiver em solo
         switch (hDir)
         {
         case 1:
@@ -245,7 +281,7 @@ void Player::PlayerMovement()
     }
     else
     {
-        // Controla as animações quando estiver no ar
+        // Controla as animaï¿½ï¿½es quando estiver no ar
         switch (lastDir)
         {
         case 1:
@@ -267,6 +303,10 @@ void Player::PlayerMovement()
     if (jump && onGround)
     {
         vSpd -= 550.0f;
+
+        int rand = mt() % 2;
+        playerSfx->Play(rand + 4);
+
         onGround = false;
         jump = 0;
     }
@@ -278,6 +318,14 @@ void Player::PlayerMovement()
 
 void Player::PlayerAttack()
 {
+    //toca som apenas uma vez
+    if(!soundOn){
+        soundOn = true;
+        int rand = mt() % 4;
+        playerSfx->Play(rand);
+    }
+
+
     switch (lastDir)
     {
     case 1:
@@ -295,27 +343,43 @@ void Player::PlayerAttack()
         break;
     }
 
-    if (attackTimer->Elapsed(0.5f))
+
+    if (attackTimer->Elapsed(0.5f)){
         state = PLAYERMOVE;
+        soundOn = false;
+    }
 }
 
 // -------------------------------------------------------------------------------
 
 void Player::PlayerHit()
 {
-    knockBackSpd = Scripts::lerp(knockBackSpd, 0.0f, 0.3f);
-    hSpd = Scripts::lengthdir_x(knockBackSpd, knockBackDir);
-    vSpd = Scripts::lengthdir_y(knockBackSpd, knockBackDir);
-
-    vSpd += grav;
-
-    frames++;
-    if (frames >= maxFrames)
-    {
-        state = PLAYERMOVE;
-        hit = false;
-        frames = 0;
+    //flag soundOn usada como placeholder
+    if (!soundOn) {
+        int rand = mt() % 2;
+        playerSfx->Play(rand + 6);
     }
 }
+
+// -------------------------------------------------------------------------------
+// 
+//
+//void Player::UpdateCamera()
+//{
+//    Camera::x = Scripts::clamp(this->X() - window->Width() / 2.0f, 0, (2560 * 3) - window->Width());
+//    knockBackSpd = Scripts::lerp(knockBackSpd, 0.0f, 0.3f);
+//    hSpd = Scripts::lengthdir_x(knockBackSpd, knockBackDir);
+//    vSpd = Scripts::lengthdir_y(knockBackSpd, knockBackDir);
+//
+//    vSpd += grav;
+//
+//    frames++;
+//    if (frames >= maxFrames)
+//    {
+//        state = PLAYERMOVE;
+//        hit = false;
+//        frames = 0;
+//    }
+//}
 
 // -------------------------------------------------------------------------------

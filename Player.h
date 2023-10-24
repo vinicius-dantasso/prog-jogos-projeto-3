@@ -1,11 +1,11 @@
 /**********************************************************************************
-// Player (Arquivo de Cabeçalho)
+// Player (Arquivo de Cabeï¿½alho)
 // 
-// Criação:     10 Out 2012
-// Atualização: 01 Nov 2021
+// Criaï¿½ï¿½o:     10 Out 2012
+// Atualizaï¿½ï¿½o: 01 Nov 2021
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Define a classe jogador
+// Descriï¿½ï¿½o:   Define a classe jogador
 //
 **********************************************************************************/
 
@@ -19,6 +19,7 @@
 #include "Timer.h"
 #include "Font.h"
 #include "HitBox.h"
+#include "Audio.h"
 #include "Controller.h"
 
 // ---------------------------------------------------------------------------------
@@ -37,9 +38,27 @@ enum PlayerAnim {
 };
 enum PlayerState {PLAYERMOVE, PLAYERHIT, PLAYERATTACK};
 
+enum PlayerSFC {
+    ATT1,
+    ATT2,
+    ATT3,
+    ATT4,
+    JMP1,
+    JMP2,
+    HRT1,
+    HRT2,
+    MOV1,
+    MOV2
+};
+
 class Player : public Object
 {
 private:
+
+    Audio * playerSfx;
+    Timer* sfxTimer;
+    bool soundOn;
+
     TileSet* tile;
     Animation* anim;
     Timer* attackTimer;
@@ -83,7 +102,7 @@ public:
     bool Triggered();
     
     void OnCollision(Object* obj);
-    void Update();                      // atualização
+    void Update();                      // atualizaï¿½ï¿½o
     void Draw();                        // desenho
 };
 

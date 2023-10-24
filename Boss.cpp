@@ -5,8 +5,22 @@
 #include "Summon.h"
 #include "HitBox.h"
 
+#include "Random"
+
+RandI random = RandI(0,1);
+
 Boss::Boss(float posX, float posY)
 {
+
+	sfx = new Audio();
+	sfx->Add(BOSSSPWN, "Resources/BossSpawn.wav");
+	sfx->Add(BOSSLGHT1, "Resources/BossLaught1.wav");
+	sfx->Add(BOSSLGHT2, "Resources/BossLaught2.wav");
+	sfx->Add(BOSSHT1, "Resources/BossHit1.wav");
+	sfx->Add(BOSSHT2, "Resources/BossHit2.wav");
+	sfxTimer = new Timer();
+	sfxTimer->Start();
+
 	tile = new TileSet("Resources/death_sheet3.png",300,300,10,60);
 	anim = new Animation(tile, 0.1f, true);
 
@@ -38,10 +52,12 @@ Boss::Boss(float posX, float posY)
 
 	BBox(new Rect(-16, -50, 50, 50));
 	MoveTo(posX, posY - 48.0f);
+
 }
 
 Boss::~Boss()
 {
+	delete sfx;
 	delete anim;
 	delete tile;
 	delete animTimer;
@@ -67,12 +83,20 @@ void Boss::Update()
 		switch (state)
 		{
 		case APPEARANCE:
+
+			sfx->Play(BOSSSPWN);
 			animState = BOSSSPAWN;
 			state = BOSSSTOP;
 			animTimer->Start();
 			break;
 
 		case BOSSSTOP:
+
+			if(sfxTimer->Elapsed(0.5f)){
+				int rand = random.Rand();
+				sfx->Play(rand + 1);
+				sfxTimer->Reset();
+			}
 
 			if (animTimer->Elapsed(1.0f))
 				animState = BOSSIDLE;
@@ -123,6 +147,9 @@ void Boss::Update()
 
 			if (canHit)
 			{
+				int rand = random.Rand();
+				sfx->Play(rand + 3);
+				
 				canHit = false;
 				BossAttack();
 			}
