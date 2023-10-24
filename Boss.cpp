@@ -3,6 +3,7 @@
 #include "GeoWars.h"
 #include "Scripts.h"
 #include "Summon.h"
+#include "HitBox.h"
 
 Boss::Boss(float posX, float posY)
 {
@@ -33,6 +34,8 @@ Boss::Boss(float posX, float posY)
 	amplitude = 50;
 	time = 0;
 
+	life = 800;
+
 	BBox(new Rect(-16, -50, 50, 50));
 	MoveTo(posX, posY - 48.0f);
 }
@@ -47,13 +50,20 @@ Boss::~Boss()
 
 void Boss::OnCollision(Object* obj)
 {
-
+	if (state == BOSSSTOP && obj->Type() == HITBOX)
+		life -= 1;
 }
 
 void Boss::Update()
 {
 	if(GeoWars::player->Triggered())
 	{
+		if (life <= 0)
+		{
+			state = BOSSDEAD;
+			animState = BOSSDEATH;
+		}
+
 		switch (state)
 		{
 		case APPEARANCE:
@@ -70,6 +80,7 @@ void Boss::Update()
 			if (animTimer->Elapsed(4.0f))
 			{
 				state = BOSSPREATT;
+				animState = BOSSPRE;
 				animTimer->Stop();
 			}
 
@@ -77,20 +88,26 @@ void Boss::Update()
 
 		case BOSSPREATT:
 
-			rng = rand.Rand();
+			frames++;
+			if(frames >= maxFrames)
+			{
+				frames = 0;
+				rng = rand.Rand();
 
-			if (rng < 7)
-			{
-				animState = BOSSATTACK;
-				state = BOSSATT;
-				animTimer->Start();
-			}
-			else
-			{
-				animState = BOSSSUMMON;
-				state = BOSSSUMM;
-				animTimer->Start();
-				summonTimer->Start();
+				if (rng < 7)
+				{
+					animState = BOSSATTACK;
+					state = BOSSATT;
+					animTimer->Reset();
+					canHit = true;
+				}
+				else
+				{
+					animState = BOSSSUMMON;
+					state = BOSSSUMM;
+					animTimer->Reset();
+					summonTimer->Start();
+				}
 			}
 
 			break;
@@ -102,6 +119,12 @@ void Boss::Update()
 				animState = BOSSIDLE;
 				state = BOSSSTOP;
 				animTimer->Reset();
+			}
+
+			if (canHit)
+			{
+				canHit = false;
+				BossAttack();
 			}
 
 			break;
@@ -124,6 +147,14 @@ void Boss::Update()
 			}
 
 			break;
+
+		case BOSSDEAD:
+
+			frames++;
+			if (frames >= maxFrames)
+				GeoWars::scene->Delete(this, MOVING);
+
+			break;
 		}
 
 		vSpd = sin(time * frequency) * amplitude;
@@ -140,4 +171,10 @@ void Boss::Draw()
 {
 	if (GeoWars::player->Triggered())
 		anim->Draw(x, y, Layer::UPPER);
+}
+
+void Boss::BossAttack()
+{
+	HitBox* hitbox = new HitBox(x - 42.0f, y, ENEMYHITBOX);
+	GeoWars::scene->Add(hitbox, STATIC);
 }

@@ -9,7 +9,7 @@
 #include "Random.h"
 
 enum BossAnim {BOSSIDLE,BOSSSPAWN,BOSSDEATH,BOSSPRE,BOSSATTACK,BOSSSUMMON};
-enum BossState {APPEARANCE,BOSSSTOP,BOSSATT,BOSSPREATT,BOSSSUMM};
+enum BossState {APPEARANCE,BOSSSTOP,BOSSATT,BOSSPREATT,BOSSSUMM, BOSSDEAD};
 
 class Boss : public Object
 {
@@ -29,6 +29,11 @@ private:
 	int rng;
 	int amplitude;
 	int time;
+	int life;
+	int frames = 0;
+	int maxFrames = 90;
+
+	bool canHit;
 
 public:
 	uint state;
@@ -37,6 +42,8 @@ public:
 
 	Boss(float posX, float posY);
 	~Boss();
+
+	void BossAttack();
 
 	void OnCollision(Object* obj);
 	void Update();

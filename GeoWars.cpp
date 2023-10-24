@@ -41,7 +41,7 @@ void GeoWars::Init()
     backg = new Background("Resources/background_layer_1.png", "Resources/background_layer_2.png", "Resources/background_layer_3.png");
     player  = new Player();
     scene   = new Scene();
-    builder = new World("Resources/debugMap.png");
+    builder = new World("Resources/map.png");
     hud = new Hud();
 
     // adiciona objetos na cena
@@ -162,7 +162,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     Game * game = new GeoWars();
 
     // configura o jogo
-    game->Size(5750, 648);
+    game->Size(12000, 648);
     
     // inicia execução
     engine->Start(game);

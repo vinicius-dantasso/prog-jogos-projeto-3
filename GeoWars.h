@@ -24,7 +24,7 @@
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, FLOOR, RIGHTWALL, LEFTWALL, HITBOX, ENEMY, TRIGGER };
+enum ObjectIds { PLAYER, FLOOR, RIGHTWALL, LEFTWALL, HITBOX, ENEMYHITBOX, ENEMY, TRIGGER };
 
 // ------------------------------------------------------------------------------
 

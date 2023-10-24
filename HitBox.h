@@ -12,7 +12,7 @@ private:
 	Timer* timer;
 
 public:
-	HitBox(float posX, float posY);
+	HitBox(float posX, float posY, uint types);
 	~HitBox();
 
 	void Update();

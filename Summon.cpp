@@ -23,7 +23,7 @@ Summon::Summon(float posX, float posY)
 
 	timer->Start();
 
-	spd = 40.0f;
+	spd = 60.0f;
 	hSpd = 0.0f;
 	vSpd = 0.0f;
 
@@ -48,12 +48,16 @@ void Summon::OnCollision(Object* obj)
 	{
 		timer->Start();
 		state = SUDEATH;
+		hit = true;
 	}
 }
 
 void Summon::Update()
 {
 	float dir = Scripts::point_direction(x, y, GeoWars::player->X(), GeoWars::player->Y());
+
+	if (hit)
+		type = -1;
 
 	switch (state)
 	{

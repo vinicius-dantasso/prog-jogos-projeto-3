@@ -24,6 +24,8 @@ private:
 	int amplitude;
 	int time;
 
+	bool hit = false;
+
 public:
 	uint state;
 
