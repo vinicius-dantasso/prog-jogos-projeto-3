@@ -84,7 +84,7 @@ Player::Player()
     state = PLAYERMOVE;
 
     lastDir = 0;
-    life = 5;
+    life = 6;
 
     grav = 30.0f;
     onGround = false;
@@ -143,9 +143,11 @@ void Player::OnCollision(Object* obj)
     {
         hit = true;
         life -= 1;
-        float dir = Scripts::point_direction(obj->X(), obj->Y(), x, y - 10.0f);
+        float dir = Scripts::point_direction(obj->X(), obj->Y(), x, y);
         knockBackDir = dir;
-        knockBackSpd = 200.0f;
+        knockBackSpd = 600.0f;
+        hSpd = 0.0f;
+        vSpd = 0.0f;
         state = PLAYERHIT;
 
         switch (lastDir)
@@ -245,9 +247,6 @@ void Player::PlayerMovement()
 
     if(onGround)
     {
-
-
-
         // Caso aperte ataque, mude de estado
         if (attack)
         {
@@ -359,6 +358,19 @@ void Player::PlayerHit()
         int rand = mt() % 2;
         playerSfx->Play(rand + 6);
     }
+
+    knockBackSpd = Scripts::lerp(knockBackSpd, 0.0f, 0.3f);
+    hSpd = Scripts::lengthdir_x(knockBackSpd, knockBackDir);
+    vSpd = Scripts::lengthdir_y(knockBackSpd, knockBackDir);
+
+    vSpd += grav;
+    
+    frames++;
+    if (frames >= maxFrames)
+    {
+        hit = false;
+        state = PLAYERMOVE;
+    }
 }
 
 // -------------------------------------------------------------------------------
@@ -367,19 +379,7 @@ void Player::PlayerHit()
 //void Player::UpdateCamera()
 //{
 //    Camera::x = Scripts::clamp(this->X() - window->Width() / 2.0f, 0, (2560 * 3) - window->Width());
-//    knockBackSpd = Scripts::lerp(knockBackSpd, 0.0f, 0.3f);
-//    hSpd = Scripts::lengthdir_x(knockBackSpd, knockBackDir);
-//    vSpd = Scripts::lengthdir_y(knockBackSpd, knockBackDir);
-//
-//    vSpd += grav;
-//
-//    frames++;
-//    if (frames >= maxFrames)
-//    {
-//        state = PLAYERMOVE;
-//        hit = false;
-//        frames = 0;
-//    }
+//    
 //}
 
 // -------------------------------------------------------------------------------

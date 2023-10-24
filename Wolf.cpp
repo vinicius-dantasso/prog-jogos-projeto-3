@@ -64,7 +64,7 @@ Wolf::Wolf(float posX, float posY)
 	stateTime = 1.0f;
 
 	BBox(new Rect(-16,-8,16,32));
-	MoveTo(posX, posY);
+	MoveTo(posX, posY - 12.0f);
 }
 
 Wolf::~Wolf()
@@ -118,6 +118,10 @@ void Wolf::OnCollision(Object* obj)
 
 	if (obj->Type() == PLAYER)
 	{
+		float dir = Scripts::point_direction(GeoWars::player->X(), GeoWars::player->Y(), obj->X(), obj->Y());
+		knockBackDir = dir;
+		knockBackSpd = 200.0f;
+		state = ENEMYHIT;
 		hitPlayer = true;
 		attackTimer->Reset();
 	}
@@ -141,8 +145,15 @@ void Wolf::Update()
 	if (!hit && !hitPlayer && life > 0 && Scripts::distance_to_object(this, GeoWars::player) <= 350.0f)
 		state = ATTACKING;
 
-	if (hitPlayer && attackTimer->Elapsed(1.5f))
-		hitPlayer = false;
+	if (hitPlayer)
+	{
+		frames++;
+		if (frames >= maxFrames)
+		{
+			frames = 0;
+			hitPlayer = false;
+		}
+	}
 
 	switch (state)
 	{

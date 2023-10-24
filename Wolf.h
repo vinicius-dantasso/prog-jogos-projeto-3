@@ -16,6 +16,9 @@ private:
 	Audio * sfx;
 	Timer * sfxTimer;
 
+	int frames = 0;
+	int maxFrames = 120;
+
 public:
 	uint animState;
 
