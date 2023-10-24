@@ -27,7 +27,9 @@ Wolf::Wolf(float posX, float posY)
 
 	tile = new TileSet("Resources/wolf_sheet.png",64,64,7,56);
 	anim = new Animation(tile, 0.12f, true);
+
 	stateTimer = new Timer();
+	attackTimer = new Timer();
 
 	uint SeqIdleL[6] = { 0,1,2,3,4,5 };
 	uint SeqMoveL[5] = { 7,8,9,10,11 };
@@ -57,6 +59,7 @@ Wolf::Wolf(float posX, float posY)
 	state = CHOOSESTATE;
 	animState = WOLFIDLEL;
 
+	attackTimer->Start();
 	stateTimer->Start();
 	stateTime = 1.0f;
 
@@ -70,6 +73,7 @@ Wolf::~Wolf()
 	delete tile;
 	delete anim;
 	delete stateTimer;
+	delete attackTimer;
 }
 
 void Wolf::OnCollision(Object* obj)
@@ -77,7 +81,7 @@ void Wolf::OnCollision(Object* obj)
 	if (obj->Type() == FLOOR)
 	{
 		vSpd = 0.0f;
-		MoveTo(x, obj->Y() - 50);
+		MoveTo(x, obj->Y() - 52);
 		onGround = true;
 	}
 
@@ -111,6 +115,12 @@ void Wolf::OnCollision(Object* obj)
 		else
 			animState = WOLFHITR;
 	}
+
+	if (obj->Type() == PLAYER)
+	{
+		hitPlayer = true;
+		attackTimer->Reset();
+	}
 }
 
 void Wolf::Update()
@@ -128,8 +138,11 @@ void Wolf::Update()
 		state = CHOOSESTATE;
 	}
 
-	if (!hit && life > 0 && Scripts::distance_to_object(this, GeoWars::player) <= 350.0f)
+	if (!hit && !hitPlayer && life > 0 && Scripts::distance_to_object(this, GeoWars::player) <= 350.0f)
 		state = ATTACKING;
+
+	if (hitPlayer && attackTimer->Elapsed(1.5f))
+		hitPlayer = false;
 
 	switch (state)
 	{

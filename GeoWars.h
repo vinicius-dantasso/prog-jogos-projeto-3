@@ -20,6 +20,7 @@
 #include "Background.h"
 #include "Player.h"
 #include "World.h"
+#include "Hud.h"
 
 // ------------------------------------------------------------------------------
 
@@ -42,6 +43,7 @@ public:
     static Audio * audio;           // sitema de áudio
     static Scene * scene;           // cena do jogo
     static World * builder;         // construtor de mapa
+    static Hud * hud;
 
     void Init();                    // inicialização
     void Update();                  // atualização

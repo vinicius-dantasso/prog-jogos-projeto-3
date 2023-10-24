@@ -1,11 +1,11 @@
 /**********************************************************************************
-// Player (Arquivo de Cabeçalho)
+// Player (Arquivo de Cabeï¿½alho)
 // 
-// Criação:     10 Out 2012
-// Atualização: 01 Nov 2021
+// Criaï¿½ï¿½o:     10 Out 2012
+// Atualizaï¿½ï¿½o: 01 Nov 2021
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Define a classe jogador
+// Descriï¿½ï¿½o:   Define a classe jogador
 //
 **********************************************************************************/
 
@@ -20,6 +20,7 @@
 #include "Font.h"
 #include "HitBox.h"
 #include "Audio.h"
+#include "Controller.h"
 
 // ---------------------------------------------------------------------------------
 
@@ -31,7 +32,9 @@ enum PlayerAnim {
     PLAYERJUMPR,
     PLAYERJUMPL,
     PLAYERATTACKL,
-    PLAYERATTACKR
+    PLAYERATTACKR,
+    PLAYERHITL,
+    PLAYERHITR
 };
 enum PlayerState {PLAYERMOVE, PLAYERHIT, PLAYERATTACK};
 
@@ -61,16 +64,25 @@ private:
     Timer* attackTimer;
     Font* font;
     HitBox* hitbox;
+    Controller* gamepad;
 
     float spd;
     float hSpd;
     float vSpd;
     float grav;
+    float knockBackDir;
+    float knockBackSpd;
     
     int lastDir;
     int life;
+    int frames = 0;
+    int maxFrames = 15;
 
     bool onGround;
+    bool hit;
+    bool xboxOn = false;
+
+    uint xboxPlayer = PLAYER1;
 
 public:
     uint state;
@@ -82,12 +94,22 @@ public:
     void PlayerMovement();
     void PlayerAttack();
     void PlayerHit();
-    void UpdateCamera();
+
+    int Life();
+
+    bool isHit();
     
     void OnCollision(Object* obj);
-    void Update();                      // atualização
+    void Update();                      // atualizaï¿½ï¿½o
     void Draw();                        // desenho
-}; 
+};
+
+inline bool Player::isHit()
+{ return hit; }
+
+inline int Player::Life()
+{ return life; }
+
 // ---------------------------------------------------------------------------------
 
 #endif

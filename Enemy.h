@@ -15,6 +15,7 @@ public:
 	TileSet* tile;
 	Animation* anim;
 	Timer* stateTimer;
+	Timer* attackTimer;
 
 	uint state;
 	uint nextState;
@@ -34,6 +35,7 @@ public:
 	bool hit;
 	bool onGround;
 	bool onDestiny;
+	bool hitPlayer;
 
 	Enemy();
 	virtual ~Enemy();
