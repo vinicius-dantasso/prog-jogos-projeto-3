@@ -142,7 +142,7 @@ void GeoWars::Draw()
     Color white(1.0f, 1.0f, 1.0f, 1.0f);
     Color black(0.0f, 0.0f, 0.0f, 1.0f);
 
-    if (canDraw)
+    if (canDraw && !canPlay)
     {
         font->Draw(window->CenterX() - 110.0f, window->CenterY() + 30.0f, "> PRESS ENTER <", black, Layer::LOWER, 0.2f);
         font->Draw(window->CenterX() - 111.0f, window->CenterY() + 30.0f, "> PRESS ENTER <", white, Layer::UPPER, 0.2f);

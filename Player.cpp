@@ -161,6 +161,9 @@ void Player::Update()
         break;
     }
 
+    if (life <= 0)
+        window->Close();
+
     if (x <= 0)
         MoveTo(x + 5, y);
     else if (x >= game->Width())
